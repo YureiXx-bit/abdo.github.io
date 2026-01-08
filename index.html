@@ -8,95 +8,94 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; margin:0; padding:0; }
 
-/* 🌌 Animated background */
+/* PvP-style animated background */
 body {
-    margin: 0;
     font-family: 'Press Start 2P', cursive;
-    color: #ffffff;
+    color: #fff;
     text-align: center;
-    background: linear-gradient(-45deg, #050505, #0f0f0f, #003322, #001a11);
-    background-size: 400% 400%;
-    animation: bgMove 15s ease infinite;
+    background: #000;
+    overflow: hidden;
 }
 
-@keyframes bgMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* Energy streaks moving diagonally */
+.pvp-bg {
+    position: fixed;
+    top:0; left:0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(255,0,0,0.1) 0,
+        rgba(255,0,0,0.1) 2px,
+        rgba(0,255,0,0.1) 2px,
+        rgba(0,255,0,0.1) 4px
+    );
+    background-size: 200% 200%;
+    animation: streakMove 4s linear infinite;
 }
 
+@keyframes streakMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 200% 200%; }
+}
+
+/* Header */
 header {
-    padding: 70px 20px;
+    padding: 60px 20px;
     background: rgba(0,0,0,0.75);
-    box-shadow: 0 0 25px #00ff88;
+    box-shadow: 0 0 25px #ff4444;
 }
 
-h1 {
-    color: #00ff88;
-    text-shadow: 3px 3px #000;
-}
+h1 { color:#ff4444; text-shadow:2px 2px #000; }
 
-.container {
-    padding: 40px 20px;
-}
+.container { padding: 40px 20px; }
 
+/* Boxes */
 .box {
     background: rgba(0,0,0,0.75);
-    border: 3px solid #00ff88;
+    border: 3px solid #ff4444;
     padding: 25px;
     margin: 30px auto;
     max-width: 700px;
-    box-shadow: 0 0 15px #00ff88;
+    box-shadow: 0 0 15px #ff4444;
 }
 
-.ip {
-    font-size: 18px;
-    color: #00ff88;
-}
+/* Server IP and status */
+.ip { font-size: 18px; color: #00ff88; }
+.status { margin-top:15px; font-size:14px; }
+.online { color: #00ff88; }
+.offline { color: #ff4444; }
 
-.status {
-    margin-top: 15px;
-    font-size: 14px;
-}
-
-.online {
-    color: #00ff88;
-}
-
-.offline {
-    color: #ff4444;
-}
-
+/* Button */
 button {
     font-family: 'Press Start 2P', cursive;
-    background: #00ff88;
+    background: #ff4444;
     color: #000;
     border: none;
     padding: 14px 24px;
-    cursor: pointer;
     margin-top: 20px;
+    cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
 }
+button:hover { transform: scale(1.1); box-shadow:0 0 20px #ff4444; }
 
-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px #00ff88;
-}
-
+/* Footer */
 footer {
     padding: 20px;
     font-size: 10px;
-    color: #aaa;
+    color:#aaa;
     background: rgba(0,0,0,0.6);
 }
 </style>
 </head>
 
 <body>
+
+<!-- PvP animated background -->
+<div class="pvp-bg"></div>
 
 <header>
     <h1>⚔️ ABDO MINECRAFT SERVER ⚔️</h1>
@@ -117,9 +116,7 @@ footer {
         <p class="ip">IP: <span id="server-ip">play.yourserver.net</span></p>
         <button onclick="copyIP()">Copy IP</button>
 
-        <div class="status" id="server-status">
-            Checking server status...
-        </div>
+        <div class="status" id="server-status">Checking server status...</div>
     </div>
 
     <div class="box">
@@ -128,7 +125,6 @@ footer {
         <p>Be respectful</p>
         <p>No griefing</p>
     </div>
-
 </div>
 
 <footer>
@@ -136,32 +132,28 @@ footer {
 </footer>
 
 <script>
-const serverIP = "SuperGara.aternos.me"; // 🔴 CHANGE THIS
-
+// 🔴 CHANGE THIS to your actual server IP
+const serverIP = "SuperGara.aternos.me";
 document.getElementById("server-ip").innerText = serverIP;
 
+// Copy IP button
 function copyIP() {
     navigator.clipboard.writeText(serverIP);
     alert("Server IP copied!");
 }
 
+// Live server status
 fetch(`https://api.mcsrvstat.us/2/${serverIP}`)
 .then(res => res.json())
 .then(data => {
     const statusDiv = document.getElementById("server-status");
-
-    if (data.online) {
-        statusDiv.innerHTML = `
-            <span class="online">🟢 ONLINE</span><br>
-            👥 Players: ${data.players.online} / ${data.players.max}
-        `;
+    if(data.online){
+        statusDiv.innerHTML = `<span class="online">🟢 ONLINE</span><br>👥 Players: ${data.players.online} / ${data.players.max}`;
     } else {
         statusDiv.innerHTML = `<span class="offline">🔴 OFFLINE</span>`;
     }
 })
-.catch(() => {
-    document.getElementById("server-status").innerText = "Status unavailable";
-});
+.catch(()=>{ document.getElementById("server-status").innerText="Status unavailable"; });
 </script>
 
 </body>
