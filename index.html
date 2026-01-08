@@ -8,30 +8,31 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+* {
+    box-sizing: border-box;
+}
+
+/* 🌌 Animated background */
 body {
     margin: 0;
     font-family: 'Press Start 2P', cursive;
-    background: linear-gradient(#0f0f0f, #050505);
     color: #ffffff;
     text-align: center;
-    animation: fadeIn 1.5s ease-in;
+    background: linear-gradient(-45deg, #050505, #0f0f0f, #003322, #001a11);
+    background-size: 400% 400%;
+    animation: bgMove 15s ease infinite;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 header {
     padding: 70px 20px;
-    background: radial-gradient(circle, #1f1f1f, #000);
+    background: rgba(0,0,0,0.75);
     box-shadow: 0 0 25px #00ff88;
-    animation: glow 3s infinite alternate;
-}
-
-@keyframes glow {
-    from { box-shadow: 0 0 15px #00ff88; }
-    to { box-shadow: 0 0 30px #00ff88; }
 }
 
 h1 {
@@ -44,7 +45,7 @@ h1 {
 }
 
 .box {
-    background: #121212;
+    background: rgba(0,0,0,0.75);
     border: 3px solid #00ff88;
     padding: 25px;
     margin: 30px auto;
@@ -78,16 +79,19 @@ button {
     padding: 14px 24px;
     cursor: pointer;
     margin-top: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 button:hover {
+    transform: scale(1.1);
     box-shadow: 0 0 20px #00ff88;
 }
 
 footer {
     padding: 20px;
     font-size: 10px;
-    color: #777;
+    color: #aaa;
+    background: rgba(0,0,0,0.6);
 }
 </style>
 </head>
@@ -95,7 +99,7 @@ footer {
 <body>
 
 <header>
-    <h1>⚔️ CHILL SPACE ⚔️</h1>
+    <h1>⚔️ ABDO MINECRAFT SERVER ⚔️</h1>
     <p>Survival • PvP • Community</p>
 </header>
 
@@ -110,7 +114,7 @@ footer {
 
     <div class="box">
         <h2>🔌 Join Now</h2>
-        <p class="ip">IP: <span id="server-ip">SuperGara.aternos.me</span></p>
+        <p class="ip">IP: <span id="server-ip">play.yourserver.net</span></p>
         <button onclick="copyIP()">Copy IP</button>
 
         <div class="status" id="server-status">
