@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minecraft Server</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Press Start 2P', cursive;
+    background: linear-gradient(#1b1b1b, #0d0d0d);
+    color: #ffffff;
+    text-align: center;
+}
+
+header {
+    background: url("https://i.imgur.com/0Z8YFQv.png");
+    background-size: cover;
+    padding: 60px 20px;
+    box-shadow: 0 0 20px #00ff88;
+}
+
+h1 {
+    color: #00ff88;
+    text-shadow: 3px 3px #000;
+}
+
+.container {
+    padding: 40px 20px;
+}
+
+.box {
+    background: #151515;
+    border: 3px solid #00ff88;
+    padding: 25px;
+    margin: 20px auto;
+    max-width: 700px;
+    box-shadow: 0 0 15px #00ff88;
+}
+
+.ip {
+    font-size: 18px;
+    color: #00ff88;
+    margin-top: 15px;
+}
+
+button {
+    font-family: 'Press Start 2P', cursive;
+    background: #00ff88;
+    color: #000;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #00cc6e;
+}
+
+footer {
+    padding: 20px;
+    font-size: 10px;
+    color: #888;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>⚔️ MY MINECRAFT SERVER ⚔️</h1>
+    <p>Survival • PvP • Fun • Community</p>
+</header>
+
+<div class="container">
+
+    <div class="box">
+        <h2>🌍 Server Info</h2>
+        <p>Version: 1.21.8</p>
+        <p>Mode: Survival / PvP</p>
+        <p>No Pay-to-Win</p>
+    </div>
+
+    <div class="box">
+        <h2>🔌 Join Now</h2>
+        <p class="ip">IP: SuperGara.aternos.me</p>
+        <button onclick="copyIP()">Copy IP</button>
+    </div>
+
+    <div class="box">
+        <h2>📜 Rules</h2>
+        <p>No hacking</p>
+        <p>Be respectful</p>
+        <p>No griefing</p>
+    </div>
+
+</div>
+
+<footer>
+    © 2026 My Minecraft Server
+</footer>
+
+<script>
+function copyIP() {
+    navigator.clipboard.writeText("play.yourserver.net");
+    alert("Server IP copied!");
+}
+</script>
+
+</body>
+</html>
