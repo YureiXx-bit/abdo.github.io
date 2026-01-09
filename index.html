@@ -6,40 +6,57 @@
 <title>Abdo Minecraft Server</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
 * { box-sizing: border-box; margin:0; padding:0; }
 
-/* PvP-style animated background */
+/* iPhone-style modern font */
 body {
-    font-family: 'Press Start 2P', cursive;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: #fff;
     text-align: center;
     background: #000;
     overflow: hidden;
 }
 
-/* Energy streaks moving diagonally */
+/* PvP arena background */
 .pvp-bg {
     position: fixed;
     top:0; left:0;
     width: 100%; height: 100%;
-    pointer-events: none;
     z-index: -1;
-    background: repeating-linear-gradient(
-        45deg,
-        rgba(255,0,0,0.1) 0,
-        rgba(255,0,0,0.1) 2px,
-        rgba(0,255,0,0.1) 2px,
-        rgba(0,255,0,0.1) 4px
-    );
-    background-size: 200% 200%;
-    animation: streakMove 4s linear infinite;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a0a0a, #111111);
 }
 
-@keyframes streakMove {
-    0% { background-position: 0 0; }
-    100% { background-position: 200% 200%; }
+/* Moving blocks */
+.block {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(45deg, #222, #555);
+    opacity: 0.15;
+    animation: moveBlock linear infinite;
+}
+
+@keyframes moveBlock {
+    0% { transform: translateY(-50px) translateX(0) rotate(0deg); }
+    100% { transform: translateY(110vh) translateX(50px) rotate(360deg); }
+}
+
+/* Glowing particles (PvP sparks) */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, #ff4444 0%, transparent 70%);
+    opacity: 0.8;
+    border-radius: 50%;
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(0) translateX(0); opacity:1; }
+    50% { opacity:0.5; }
+    100% { transform: translateY(-100vh) translateX(30px); opacity:0; }
 }
 
 /* Header */
@@ -49,11 +66,19 @@ header {
     box-shadow: 0 0 25px #ff4444;
 }
 
-h1 { color:#ff4444; text-shadow:2px 2px #000; }
-
-.container { padding: 40px 20px; }
+h1, h2 {
+    font-weight: 700; /* bold iPhone-style headings */
+    color: #ff4444;
+    text-shadow:
+        0 0 5px #ff4444,
+        0 0 10px #ff4444,
+        0 0 15px #ff8888,
+        0 0 20px #ff0000;
+}
 
 /* Boxes */
+.container { padding: 40px 20px; }
+
 .box {
     background: rgba(0,0,0,0.75);
     border: 3px solid #ff4444;
@@ -63,15 +88,20 @@ h1 { color:#ff4444; text-shadow:2px 2px #000; }
     box-shadow: 0 0 15px #ff4444;
 }
 
-/* Server IP and status */
-.ip { font-size: 18px; color: #00ff88; }
-.status { margin-top:15px; font-size:14px; }
-.online { color: #00ff88; }
-.offline { color: #ff4444; }
+p { color: #fff; text-shadow: 0 0 3px #000; font-weight: 500; }
 
-/* Button */
+/* IP and status */
+.ip {
+    color: #00ff88;
+    text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88;
+}
+
+.status { margin-top:15px; font-size:14px; }
+.status .online { color:#00ff88; text-shadow: 0 0 5px #00ff88, 0 0 10px #00ff88; }
+.status .offline { color:#ff4444; text-shadow: 0 0 5px #ff4444, 0 0 10px #ff4444; }
+
 button {
-    font-family: 'Press Start 2P', cursive;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background: #ff4444;
     color: #000;
     border: none;
@@ -79,13 +109,14 @@ button {
     margin-top: 20px;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    font-weight: 600;
+    border-radius: 8px;
 }
-button:hover { transform: scale(1.1); box-shadow:0 0 20px #ff4444; }
+button:hover { transform: scale(1.05); box-shadow:0 0 20px #ff4444, 0 0 40px #ff8888; }
 
-/* Footer */
 footer {
     padding: 20px;
-    font-size: 10px;
+    font-size: 12px;
     color:#aaa;
     background: rgba(0,0,0,0.6);
 }
@@ -94,7 +125,6 @@ footer {
 
 <body>
 
-<!-- PvP animated background -->
 <div class="pvp-bg"></div>
 
 <header>
@@ -106,7 +136,7 @@ footer {
 
     <div class="box">
         <h2>🌍 Server Info</h2>
-        <p>Version: 1.20+</p>
+        <p>Version: 1.21.8</p>
         <p>Mode: Survival / PvP</p>
         <p>No Pay-to-Win</p>
     </div>
@@ -115,7 +145,6 @@ footer {
         <h2>🔌 Join Now</h2>
         <p class="ip">IP: <span id="server-ip">play.yourserver.net</span></p>
         <button onclick="copyIP()">Copy IP</button>
-
         <div class="status" id="server-status">Checking server status...</div>
     </div>
 
@@ -125,6 +154,14 @@ footer {
         <p>Be respectful</p>
         <p>No griefing</p>
     </div>
+
+    <div class="box">
+        <h2>⚙️ Requirements</h2>
+        <p>✅ Minecraft version 1.21.8</p>
+        <p>✅ You must install <strong>Simple Voice Chat</strong> mod</p>
+        <p>✅ Optional: Optifine for better performance</p>
+    </div>
+
 </div>
 
 <footer>
@@ -132,11 +169,10 @@ footer {
 </footer>
 
 <script>
-// 🔴 CHANGE THIS to your actual server IP
+// Change to your server IP
 const serverIP = "SuperGara.aternos.me";
 document.getElementById("server-ip").innerText = serverIP;
 
-// Copy IP button
 function copyIP() {
     navigator.clipboard.writeText(serverIP);
     alert("Server IP copied!");
@@ -154,6 +190,29 @@ fetch(`https://api.mcsrvstat.us/2/${serverIP}`)
     }
 })
 .catch(()=>{ document.getElementById("server-status").innerText="Status unavailable"; });
+
+// --- Generate moving blocks ---
+for(let i=0; i<40; i++){
+    const block = document.createElement('div');
+    block.classList.add('block');
+    block.style.left = Math.random()*100+'vw';
+    block.style.top = Math.random()*100+'vh';
+    block.style.width = 10+Math.random()*20+'px';
+    block.style.height = 10+Math.random()*20+'px';
+    block.style.animationDuration = 5+Math.random()*5+'s';
+    document.body.appendChild(block);
+}
+
+// --- Generate glowing particles ---
+for(let i=0; i<60; i++){
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    p.style.left = Math.random()*100+'vw';
+    p.style.top = Math.random()*100+'vh';
+    p.style.animationDuration = 3+Math.random()*4+'s';
+    p.style.background = `radial-gradient(circle, hsl(${Math.random()*360}, 100%, 60%) 0%, transparent 70%)`;
+    document.body.appendChild(p);
+}
 </script>
 
 </body>
